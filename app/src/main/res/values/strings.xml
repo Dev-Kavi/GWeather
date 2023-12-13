@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GWeather</string>
+
+    <string name="landing_hello">Hello.</string>
 </resources>
