@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.gcsh.gweather.R
 import com.gcsh.gweather.common.UserPreferencesManager
 import com.gcsh.gweather.databinding.FragmentLogInBinding
 import kotlinx.coroutines.Job
@@ -18,8 +20,7 @@ class LogInFragment : Fragment() {
     private var loginResultJob: Job? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val binding = FragmentLogInBinding.inflate(inflater, container, false)
         setupUI(binding)
@@ -44,12 +45,7 @@ class LogInFragment : Fragment() {
                 if (savedUserName != null && savedPassword != null) {
                     viewModel.loginUser(inputUserName, inputPassword, savedUserName, savedPassword)
                 } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "No saved credentials available.",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    showToast("No saved credentials available.")
                 }
             }
         }
@@ -57,29 +53,34 @@ class LogInFragment : Fragment() {
         observeLoginResult(viewModel)
     }
 
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
     private fun observeLoginResult(viewModel: LogInViewModel) {
         loginResultJob?.cancel()
         loginResultJob = viewLifecycleOwner.lifecycleScope.launch {
             viewModel.loginResult.collect { result ->
-                when (result) {
-                    is LoginResult.Success -> {
-                        Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_SHORT)
-                            .show()
-                        // TODO: Navigate to the home screen
-                    }
+                handleLoginResult(result)
+            }
+        }
+    }
 
-                    is LoginResult.Failure -> {
-                        Toast.makeText(requireContext(), result.error, Toast.LENGTH_SHORT).show()
-                    }
+    private fun handleLoginResult(result: LoginResult) {
+        when (result) {
+            is LoginResult.Success -> {
+                showToast("Login successful")
+                findNavController().navigate(R.id.action_logInFragment_to_homeWeatherActivity)
+            }
 
-                    LoginResult.Initial -> {}
-                }
+            is LoginResult.Failure -> showToast(result.error)
+            LoginResult.Initial -> { /* Do nothing for initial state */
             }
         }
     }
 
     override fun onDestroyView() {
-        loginResultJob?.cancel() // Cancel the job when the view is destroyed
+        loginResultJob?.cancel()
         super.onDestroyView()
     }
 

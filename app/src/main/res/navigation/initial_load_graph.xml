@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/initial_load_graph"
     app:startDestination="@id/landingFragment">
 
@@ -27,5 +28,14 @@
     <fragment
         android:id="@+id/logInFragment"
         android:name="com.gcsh.gweather.login.LogInFragment"
-        android:label="LogInFragment" />
+        android:label="LogInFragment" >
+        <action
+            android:id="@+id/action_logInFragment_to_homeWeatherActivity"
+            app:destination="@id/homeWeatherActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/homeWeatherActivity"
+        android:name="com.gcsh.gweather.home.HomeWeatherActivity"
+        android:label="activity_home_weather"
+        tools:layout="@layout/activity_home_weather" />
 </navigation>
