@@ -18,7 +18,12 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.gcsh.gweather.signup.SignUpFragment"
-        android:label="SignUpFragment" />
+        android:label="SignUpFragment" >
+
+        <action
+            android:id="@+id/action_signUpFragment_to_landingFragment"
+            app:destination="@id/landingFragment" />
+    </fragment>
     <fragment
         android:id="@+id/logInFragment"
         android:name="com.gcsh.gweather.login.LogInFragment"
