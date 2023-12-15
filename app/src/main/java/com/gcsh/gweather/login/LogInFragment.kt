@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 class LogInFragment : Fragment() {
 
     private var loginResultJob: Job? = null
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {

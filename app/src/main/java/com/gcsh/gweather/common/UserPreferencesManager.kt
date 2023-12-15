@@ -9,6 +9,7 @@ class UserPreferencesManager(private val context: Context) {
         private const val PREF_NAME = "user_preferences"
         private const val KEY_USERNAME = "username"
         private const val KEY_PASSWORD = "password"
+
     }
 
     private val sharedPreferences: SharedPreferences =
